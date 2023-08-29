@@ -13,7 +13,7 @@ This game is a recreation of the popular Flappy Bird game, developed using the P
 - Interactive and intuitive controls.
 - Scoring system to track and display the player's progress.
 - Leaderboard System
-- Different Bird Skins
+- Different Bird Skins & Buy Skins System
 - Seamless restart system for a smooth gaming experience.
 - Easily deployable to different platforms.
 
@@ -32,7 +32,7 @@ This game is a recreation of the popular Flappy Bird game, developed using the P
 ### Installation
 
 1. Clone the repository: `git clone https://github.com/Tajammal-Maqbool/flappybird-game-using-phaser.git`
-2. Navigate to the project directory: `cd your-repo`
+2. Navigate to the project directory: `cd flappybird-game-using-phaser`
 3. Install dependencies: `npm install`
 
 ### Running the Game
