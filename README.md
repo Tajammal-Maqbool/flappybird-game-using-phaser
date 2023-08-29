@@ -2,6 +2,8 @@
 
 Welcome to the repository for our Flappy Bird game developed using Phaser and Game Fuse! This project aims to provide a fun and educational example of creating a classic game using modern web technologies.
 
+![Flappy Bird Game Screenshot](flappy-bird-game-screenshot.png)
+
 ## Overview
 
 This game is a recreation of the popular Flappy Bird game, developed using the Phaser game framework and leveraging the features of Game Fuse to simplify development. The game involves controlling a bird through a series of obstacles, aiming to achieve the highest score possible.
