@@ -1,3 +1,4 @@
+// Constants for game scene
 const GROUND_SPEED = 180;
 const GROUND_WIDTH = 336;
 const GROUND_HEIGHT = 112;
@@ -12,6 +13,7 @@ class GameScene extends Phaser.Scene {
     constructor() {
         super({ key: 'GameScene' });
 
+        // variables and settings
         this.isStarted = false;
         this.isGameOver = false;
         this.birdColor = "red";
@@ -30,28 +32,21 @@ class GameScene extends Phaser.Scene {
     }
 
     preload() {
-        // Nothing to do here
+        // Nothing to do here, already loaded in preload scene
     }
 
     create() {
         this.createBackground();
         this.createGameReady();
 
+        // audio
         this.sounds.die = this.sound.add('die');
         this.sounds.hit = this.sound.add('hit');
         this.sounds.swoosh = this.sound.add('swoosh');
         this.sounds.wing = this.sound.add('wing');
 
+        // input (mouse or touch)
         this.input.on('pointerdown', this.handleOnPointerDown, this);
-    }
-
-    handleOnPointerDown() {
-        if (!this.isStarted) {
-            this.isStarted = true;
-
-            // remove gameready
-            this.children.getByName('gameready').destroy();
-        }
     }
 
     createBackground() {
@@ -198,7 +193,7 @@ class GameScene extends Phaser.Scene {
         if (!this.isAddedIntoDatabase) {
             this.isAddedIntoDatabase = true;
 
-
+            // Add score to GameFuse database
             let lastScore = GameFuseUser.CurrentUser.getAttributeValue("Score");
             lastScore = Number(lastScore)
             if (lastScore < this.score) {
