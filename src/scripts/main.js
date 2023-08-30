@@ -1,6 +1,9 @@
+// Import Phaser and config module
 import Phaser from 'phaser';
 import config from './config';
 
+
+// DOM elements
 let signupMenu = document.getElementById('signupMenu');
 let signUpButton = document.getElementById('signupButton');
 let signinLink = document.getElementById('signinLink');
@@ -21,13 +24,17 @@ let shopMenu = document.getElementById('shopMenu');
 let leaderboardBackButton = document.getElementById('leaderboardBackButton');
 let shopBackButton = document.getElementById('shopBackButton');
 
+
+// Event listeners
 signinLink.addEventListener('click', function () {
+    // Hide signup, show signin
     signupMenu.style.display = 'none';
     signinMenu.style.display = 'flex';
     mainMenu.style.display = 'none';
 });
 
 signupLink.addEventListener('click', function () {
+    // Show signup, hide signin
     signupMenu.style.display = 'flex';
     signinMenu.style.display = 'none';
     mainMenu.style.display = 'none';
@@ -35,12 +42,14 @@ signupLink.addEventListener('click', function () {
 
 
 signinButton.addEventListener('click', function () {
+    // Get email and password & sign in
     let email = document.getElementById('signinEmail').value;
     let password = document.getElementById('signinPassword').value;
     SignIn(email, password);
 });
 
 signUpButton.addEventListener('click', function () {
+    // Get email, password, confirm password and username & sign up
     let email = document.getElementById('signupEmail').value;
     let password = document.getElementById('signupPassword').value;
     let cPassword = document.getElementById('signupConfirmPassword').value;
@@ -49,7 +58,9 @@ signUpButton.addEventListener('click', function () {
 });
 
 playButton.addEventListener('click', function () {
+    // Hide menu and start game
     menu.style.display = 'none';
+    mainMenu.style.display = 'none';
     const game = new Phaser.Game(config)
     game.scene.start('PreloadScene', {
         bird: GameFuseUser.CurrentUser.getAttributeValue("Bird")
@@ -57,6 +68,7 @@ playButton.addEventListener('click', function () {
 });
 
 leaderboardButton.addEventListener('click', function () {
+    // Hide menu and show leaderboard
     mainMenu.style.display = 'none';
     leaderboardMenu.style.display = 'flex';
 
@@ -74,6 +86,7 @@ leaderboardButton.addEventListener('click', function () {
 });
 
 function updateLeaderboard() {
+    // Update leaderboard UI with entries from GameFuse
     let leaderboardList = document.getElementById("leaderboardList");
     leaderboardList.innerHTML = '';
     const enteries = GameFuse.Instance.leaderboardEntries;
@@ -99,12 +112,14 @@ function updateLeaderboard() {
 
 
 shopButton.addEventListener('click', function () {
+    // Hide menu and show shop
     mainMenu.style.display = 'none';
     shopMenu.style.display = 'flex';
 
     updateShop();
 });
 
+// Purchase store item with id of storeItem using Credits of User
 function purchaseStoreItem(storeItemId) {
     console.log("Purchasing store item: " + storeItemId);
 
@@ -134,8 +149,9 @@ function purchaseStoreItem(storeItemId) {
     });
 }
 
+// Select bird item with value of value
 function selectBirdItem(value) {
-    console.log(value);
+    console.log("Selecting bird item: " + value);
 
     GameFuseUser.CurrentUser.setAttribute("Bird", value, function (message, hasError) {
         if (hasError) {
@@ -148,6 +164,7 @@ function selectBirdItem(value) {
     });
 }
 
+// Update shop UI with store items from GameFuse
 function updateShop() {
     document.getElementById("shopCredits").innerText = GameFuseUser.CurrentUser.getCredits();
 
@@ -165,9 +182,8 @@ function updateShop() {
             }
         }
     }
-    let shopList = document.getElementById("shopList");
-    shopList.innerHTML = '';
 
+    // General function to get image url of bird
     const getImageUrl = (name) => {
         switch (name) {
             case "Red FlappyBird":
@@ -181,6 +197,9 @@ function updateShop() {
         }
     }
 
+    // Update shop store items UI
+    let shopList = document.getElementById("shopList");
+    shopList.innerHTML = '';
     for (let i = 0; i < storeItems.length; i++) {
         shopList.innerHTML += `
         <div class="shopItem">
@@ -193,6 +212,7 @@ function updateShop() {
         </div>
         `;
     }
+    // Add event listeners to shop store items UI
     for (let i = 0; i < storeItems.length; i++) {
         let shopButton = document.getElementById(`shopButton${i}`);
         if (shopButton !== null) {
@@ -202,7 +222,7 @@ function updateShop() {
         }
     }
 
-
+    // Update shop birds UI
     let birdsList = document.getElementById("birdsList");
     birdsList.innerHTML = '';
     let selectedBird = GameFuseUser.CurrentUser.getAttributeValue("Bird");
@@ -225,7 +245,7 @@ function updateShop() {
         }
     }
 
-
+    // Add event listeners to shop birds UI
     let birdItem0 = document.getElementById(`birdItem0`);
     if (birdItem0 !== null) {
         birdItem0.addEventListener('click', function () {
@@ -247,16 +267,19 @@ function updateShop() {
 }
 
 signOutButton.addEventListener('click', function () {
+    // Sign out and show signin
     mainMenu.style.display = 'none';
     signinMenu.style.display = 'flex';
 });
 
 leaderboardBackButton.addEventListener('click', function () {
+    // Hide leaderboard and show menu
     leaderboardMenu.style.display = 'none';
     mainMenu.style.display = 'flex';
 });
 
 shopBackButton.addEventListener('click', function () {
+    // Hide shop and show menu
     shopMenu.style.display = 'none';
     mainMenu.style.display = 'flex';
 });
@@ -267,6 +290,7 @@ window.onload = function () {
 }
 
 function start() {
+    // Initialize GameFuse
     var gameID = '10';
     var gameToken = '8ed1ab47-d161-4008-9f07-97d2d60bbea4';
 
@@ -281,6 +305,7 @@ function start() {
     }, { seedStore: "seedStore" });
 }
 
+// Sign in with email and password
 const SignIn = (email, password) => {
     signinButton.disabled = true;
 
@@ -296,6 +321,7 @@ const SignIn = (email, password) => {
             signinMenu.style.display = 'none';
             mainMenu.style.display = 'flex';
 
+            // Initialize user attributes
             let credits = GameFuseUser.CurrentUser.getCredits();
             if (credits === 0) {
                 GameFuseUser.CurrentUser.addCredits(100, function (message, hasError) {
@@ -366,6 +392,7 @@ const SignIn = (email, password) => {
     });
 }
 
+// Sign up with email, password, confirm password and username
 const SignUp = (email, password, cPassword, username) => {
     signUpButton.disabled = true;
 
